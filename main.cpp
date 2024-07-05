@@ -1,6 +1,47 @@
 #include <iostream>
 #include <string>
 #include "./parser/Universal_parser.h"
+#include "./validation/Data_validator.h"
+
+
+void print(universal_parser first);
+void convert(std::string first_file_csv,std::string second_file_txt );
+
+int main() {
+    try {
+        universal_parser first("../data/выгрузка.txt");
+        universal_parser second("../data/договоры на платное.csv");
+
+//        validation_data val(first,second,"../data/");
+
+        print(first);
+
+    }catch (const std::exception& e) {
+        std::cerr << "Ошибка: " << e.what() << std::endl;
+    }
+    return 0;
+
+}
+
+
+
+void print(universal_parser first){
+    for (const auto& vec1 : first.get_data()) {
+        for (const auto& map : vec1) {
+            for (const auto& pair : map) {
+                std::cout << "{" << pair.first << ": " << pair.second << "} ";
+            }
+            std::cout << std::endl;
+        }
+    }
+    int c = 0;
+    for(auto i: first.get_data())
+    {
+        c++;
+    }
+    std::cout << c <<std::endl;
+}
+
 
 void convert(std::string first_file_csv,std::string second_file_txt ){
     /*
@@ -13,34 +54,4 @@ void convert(std::string first_file_csv,std::string second_file_txt ){
      * .
      */
 
-}
-
-int main() {
-//    try {
-//        database_txt_parser database_csv("ini.txt");
-//        selection_committee_parser selection_committee("ini.txt");
-//        std::cout << "Значение: " << "asd" << std::endl;
-//    } catch (const std::exception& e) {
-//        std::cerr << "Ошибка: " << e.what() << std::endl;
-//    }
-    universal_parser database_csv("../data/выгрузка.txt");
-
-
-
-    for (const auto& vec1 : database_csv.get_data()) {
-        for (const auto& map : vec1) {
-            for (const auto& pair : map) {
-                std::cout << "{" << pair.first << ": " << pair.second << "} ";
-            }
-            std::cout << std::endl;
-        }
-    }
-    int c = 0;
-    for(auto i: database_csv.get_data())
-    {
-        c++;
-    }
-    std::cout << c <<std::endl;
-//    database_txt_parser asd("../data/договоры на платное.csv");
-    return 0;
 }

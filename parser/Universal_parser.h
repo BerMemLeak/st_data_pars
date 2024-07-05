@@ -14,7 +14,7 @@ private:
     std::vector<std::vector<std::map<std::string, std::string>>> data;
     std::string filename;
 public:
-    explicit universal_parser(const std::string& filename):filename(filename)  {
+    explicit universal_parser(const std::string& filename):filename(std::move(filename))  {
         parse_file();
     }
     void parse_file() {
