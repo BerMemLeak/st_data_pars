@@ -207,6 +207,6 @@ $RECYCLE.BIN/
 
 **/*.txt
 **/*.csv
-
+.idea/
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,macos,windows,qt,qtcreator,git,cmake
