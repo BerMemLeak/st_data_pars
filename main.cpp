@@ -14,7 +14,7 @@ int main() {
 
 //        validation_data val(first,second,"../data/");
 
-        print(first);
+        print(second);
 
     }catch (const std::exception& e) {
         std::cerr << "Ошибка: " << e.what() << std::endl;
@@ -27,12 +27,10 @@ int main() {
 
 void print(universal_parser first){
     for (const auto& vec1 : first.get_data()) {
-        for (const auto& map : vec1) {
-            for (const auto& pair : map) {
+            for (const auto& pair : vec1) {
                 std::cout << "{" << pair.first << ": " << pair.second << "} ";
             }
             std::cout << std::endl;
-        }
     }
     int c = 0;
     for(auto i: first.get_data())

@@ -11,7 +11,7 @@
 
 class universal_parser {
 private:
-    std::vector<std::vector<std::map<std::string, std::string>>> data;
+    std::vector<std::map<std::string, std::string>> data;
     std::string filename;
 public:
     explicit universal_parser(const std::string& filename):filename(std::move(filename))  {
@@ -55,7 +55,7 @@ public:
                 data_index++;
             }
             if (line_index < this->data.size()) {
-                this->data[line_index].push_back(person_data);
+                this->data.push_back(person_data);
             } else {
                 this->data.push_back({person_data});
             }
@@ -63,7 +63,7 @@ public:
         }
         file.close(); // закрываем файл после чтения
     }
-    std::vector<std::vector<std::map<std::string, std::string>>> get_data(){
+    std::vector<std::map<std::string, std::string>> get_data(){
         return this->data;
     }
 };
