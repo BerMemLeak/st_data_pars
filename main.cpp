@@ -12,9 +12,10 @@ int main() {
         universal_parser first("../data/выгрузка.txt");
         universal_parser second("../data/договоры на платное.csv");
 
-//        validation_data val(first,second,"../data/");
+        validation_data val(first,second,"../data/");
+        val.compareFiles();
+//        print(second);
 
-        print(second);
 
     }catch (const std::exception& e) {
         std::cerr << "Ошибка: " << e.what() << std::endl;
