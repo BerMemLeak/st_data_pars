@@ -12,8 +12,8 @@ int main() {
         universal_parser first("../data/выгрузка.txt");
         universal_parser second("../data/договоры на платное.csv");
 
-        validation_data val(first,second,"../data/");
-        val.compareFiles();
+        validation_data val(first,second,"../data/", "../data/output.txt");
+//        val.compareFiles();
 //        print(second);
 
 
