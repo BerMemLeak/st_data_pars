@@ -2,15 +2,23 @@
 #include <string>
 #include "./parser/Universal_parser.h"
 #include "./validation/Data_validator.h"
+//#include <QApplication>
+//#include "./ui/mainwindow.h"
 
 
 void print(universal_parser first);
 void convert(std::string first_file_csv,std::string second_file_txt );
 
-int main() {
+int main(int argc, char *argv[]) {
     try {
-        universal_parser first("../data/выгрузка.txt");
-        universal_parser second("../data/договоры на платное.csv");
+        universal_parser first("../data/выгрузка_новое.txt");
+        universal_parser second("../data/договоры_на платное_новое.csv");
+
+
+//        QApplication app(argc, argv);
+//        MainWindow w;
+//        w.show();
+//        return app.exec();
 
         validation_data val(first,second,"../data/", "../data/output.txt");
 //        val.compareFiles();

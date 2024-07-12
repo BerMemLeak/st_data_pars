@@ -27,7 +27,7 @@ private:
         }
 
         std::string goodValidation = "\n\nПравильные данные: \n"; //строка с правильными челиками
-        std::string noPers= "\n\nВ файле приемки записей про таких людей нет:\n"; // нет микрочела
+        std::string noPersInPriem= "\n\nВ файле приемки записей про таких людей нет:\n"; // нет микрочела
         std::string badValidation = "\n\nОшибка в заполненых данных:\n"; // ошибки в заполнении
 
         int a = 0;
@@ -56,7 +56,7 @@ private:
                 }
                 if(!found){
                     //сделать запись, что микрочелика нету
-                    noPers += "\n"+vec1.at("Фамилия")+" "+ vec1.at("Имя") + " " + vec1.at("Отчество");
+                    noPersInPriem += "\n"+vec1.at("Фамилия")+" "+ vec1.at("Имя") + " " + vec1.at("Отчество");
                 }
                 if(found and !contest_quid and !cafedra_quid){
                     //неправильный quid кокурса и куид кафедры
@@ -71,9 +71,9 @@ private:
                     badValidation += "\n" + vec1.at("Фамилия")+" "+ vec1.at("Имя") + " " + vec1.at("Отчество") + " - неправильный quid конкурса ";
                 }
             }
-            outputFile << goodValidation;
-            outputFile << noPers ;
+            outputFile << noPersInPriem ;
             outputFile << badValidation;
+            outputFile << goodValidation;
             outputFile.close();
         }catch (const char* error_message)
         {
