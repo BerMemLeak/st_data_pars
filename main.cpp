@@ -2,17 +2,35 @@
 #include <string>
 #include "./parser/Universal_parser.h"
 #include "./validation/Data_validator.h"
+#include "./encoding/encoding_converter.h"
 //#include <QApplication>
 //#include "./ui/mainwindow.h"
+
+
 
 
 void print(universal_parser first);
 void convert(std::string first_file_csv,std::string second_file_txt );
 
 int main(int argc, char *argv[]) {
+
     try {
-        universal_parser first("../data/выгрузка_новое.txt");
-        universal_parser second("../data/договоры_на платное_новое.csv");
+        std::string file1 = "../data/1.txt";
+        std::string source_encoding1 = detect_encoding(file1);
+        std::cout << "Определенная кодировка: " << source_encoding1 << std::endl;
+        std::string target_encoding1 = "utf-8";
+        convert_file_encoding(file1, source_encoding1, target_encoding1);
+        std::cout << "Файл " << file1 << " успешно конвертирован в " << target_encoding1 << std::endl;
+
+        std::string file2 = "../data/2.csv";
+        std::string source_encoding2 = detect_encoding(file2);
+        std::cout << "Определенная кодировка: " << source_encoding2 << std::endl;
+        std::string target_encoding2 = "utf-8";
+        convert_file_encoding(file2, source_encoding2, target_encoding2);
+        std::cout << "Файл " << file2 << " успешно конвертирован в " << target_encoding2 << std::endl;
+
+        universal_parser first(file1);
+        universal_parser second(file2);
 
 
 //        QApplication app(argc, argv);
