@@ -17,11 +17,10 @@
 class validation_data {
     universal_parser& first;
     universal_parser& second;
-    std::string path;
     std::string outputFilename;
 
 public:
-    explicit validation_data(universal_parser& first, universal_parser& second, std::string path, std::string outputFilename);
+    explicit validation_data(universal_parser& first, universal_parser& second, std::string outputFilename);
 
 private:
     void compareFiles();

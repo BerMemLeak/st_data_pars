@@ -10,46 +10,74 @@
 
 
 void print(universal_parser first);
-void convert(std::string first_file_csv,std::string second_file_txt );
+bool is_txt_file(const std::string& file_path) {
+    // Проверяем, что файл имеет расширение .txt
+    return file_path.size() >= 4 && file_path.substr(file_path.size() - 4) == ".txt";
+}
+
+bool is_csv_file(const std::string& file_path) {
+    // Проверяем, что файл имеет расширение .csv
+    return file_path.size() >= 4 && file_path.substr(file_path.size() - 4) == ".csv";
+}
+bool is_file(const std::string& str) {
+    for (char ch : str) {
+        if (ch == '.') {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 int main(int argc, char *argv[]) {
-
     try {
-        std::string file1 = "../data/1.txt";
+        std::cout << "Введите путь к первому файлу с расширением .txt (Выгрузка в ПК)\nпуть к файлу :";
+        std::string file1;
+        std::cin >> file1;
+
+        if (!is_txt_file(file1)) {
+            std::cerr << "Ошибка: Файл должен иметь расширение .txt" << std::endl;
+            return 1;
+        }
+
         std::string source_encoding1 = detect_encoding(file1);
-        std::cout << "Определенная кодировка: " << source_encoding1 << std::endl;
+        std::cout << "\nОпределенная кодировка: " << source_encoding1 << std::endl;
         std::string target_encoding1 = "utf-8";
         convert_file_encoding(file1, source_encoding1, target_encoding1);
         std::cout << "Файл " << file1 << " успешно конвертирован в " << target_encoding1 << std::endl;
 
-        std::string file2 = "../data/2.csv";
+        std::cout << "\n\n\nВведите путь ко второму файлу с расширением .csv (Договоры на платное обучение)\nпуть к файлу :";
+        std::string file2;
+        std::cin >> file2;
+        if (!is_csv_file(file2)) {
+            std::cerr << "\nОшибка: Файл должен иметь расширение .csv\n" << std::endl;
+            return 1;
+        }
+
         std::string source_encoding2 = detect_encoding(file2);
-        std::cout << "Определенная кодировка: " << source_encoding2 << std::endl;
+        std::cout << "\n\nОпределенная кодировка: " << source_encoding2 << std::endl;
         std::string target_encoding2 = "utf-8";
         convert_file_encoding(file2, source_encoding2, target_encoding2);
         std::cout << "Файл " << file2 << " успешно конвертирован в " << target_encoding2 << std::endl;
 
         universal_parser first(file1);
         universal_parser second(file2);
+        std::cout <<"\nВыберите путь для выходного файла(нужно указать папку)\nпуть к папке :";
+        if (is_file){
+            std::cerr << "\nОшибка: Либо в пути присутствует точка, либо вы передали путь к файлу, а надо в папку .csv\n" << std::endl;
+        }
+        std::string outputPath;
+        std::cin >> outputPath;
+        outputPath += "/ouput.txt";
+        validation_data val(first, second, outputPath);
+        // print(first);
 
-
-//        QApplication app(argc, argv);
-//        MainWindow w;
-//        w.show();
-//        return app.exec();
-
-        validation_data val(first,second,"../data/", "../data/output.txt");
-//        val.compareFiles();
-//        print(second);
-
-
-    }catch (const std::exception& e) {
-        std::cerr << "Ошибка: " << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Ошибка : " << e.what() << std::endl;
+        return 1;
     }
     return 0;
-
 }
-
 
 
 void print(universal_parser first){
@@ -67,16 +95,3 @@ void print(universal_parser first){
     std::cout << c <<std::endl;
 }
 
-
-void convert(std::string first_file_csv,std::string second_file_txt ){
-    /*
-     * Функция конвертирования файлов, перезаписывает файлы в читаемый формат
-     * из кодировки cp1251 --> utf-16 для файла приемки  ##### тут csv файл
-     * из cp1251 --> utf-16 для файла из базы access   ##### тут txt файл
-     *
-     * @param first_file_csv файл приемной комиссии.
-     * @param second_file_txt файл из бд.
-     * .
-     */
-
-}

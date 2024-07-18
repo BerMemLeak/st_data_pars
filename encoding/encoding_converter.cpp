@@ -5,7 +5,11 @@
 #include <sstream>
 #include <stdexcept>
 #include <uchardet/uchardet.h> // Подключение библиотеки uchardet
+#include <boost/locale.hpp>
+#include <string>
+#include <filesystem> // Для работы с файловой системой (доступно в C++17 и выше)
 
+// Функция для определения кодировки файла
 std::string detect_encoding(const std::string& file_path) {
     std::ifstream file(file_path, std::ios::binary);
     if (!file.is_open()) {
@@ -31,10 +35,19 @@ std::string detect_encoding(const std::string& file_path) {
     return detected_encoding;
 }
 
-#include <filesystem> // Для работы с файловой системой (доступно в C++17 и выше)
+// Функция для преобразования строки из одной кодировки в другую
+std::string convert_encoding(const std::string& input, const std::string& from_encoding, const std::string& to_encoding) {
+    using namespace boost::locale;
+    generator gen;
+    std::locale loc = gen("en_US.UTF-8");
+    std::locale::global(loc);
+//    std::cout << conv::between(input, to_encoding, from_encoding)<< std::endl;
+    return conv::between(input, to_encoding, from_encoding);
+}
 
+// Функция для преобразования кодировки файла
 void convert_file_encoding(const std::string& input_file, const std::string& source_encoding, const std::string& target_encoding) {
-    std::ifstream input_stream(input_file);
+    std::ifstream input_stream(input_file, std::ios::binary);
     if (!input_stream.is_open()) {
         std::cerr << "Error: Unable to open input file: " << input_file << std::endl;
         return;
@@ -46,20 +59,23 @@ void convert_file_encoding(const std::string& input_file, const std::string& sou
     std::string content = buffer.str();
     input_stream.close(); // Закрываем входной поток
 
+    // Преобразование содержимого из исходной кодировки в целевую
+    std::string converted_content = convert_encoding(content, source_encoding, target_encoding);
 
-    //тут нужна функция iconv !!!!!!!!
+    // Создаем имя для нового файла
+    std::string output_file =   input_file ;
 
-
-    // Открываем новый файл для записи в новой кодировке а ее нету(((
-    std::ofstream output_stream(input_file);
+    // Открываем новый файл для записи в новой кодировке
+    std::ofstream output_stream(output_file, std::ios::binary);
     if (!output_stream.is_open()) {
-        std::cerr << "Error: Unable to create output file: " << input_file << std::endl;
+        std::cerr << "Error: Unable to create output file: " << output_file << std::endl;
         return;
     }
 
-    // Запись содержимого обратно в файл с новой кодировкой
-    output_stream << content;
-    output_stream << "123";
+    // Запись преобразованного содержимого в новый файл
+    output_stream << converted_content;
     output_stream.close(); // Закрываем выходной поток
 
+    std::cout << "Файл успешно преобразован и сохранен по пути : " << output_file << std::endl;
 }
+

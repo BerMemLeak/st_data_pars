@@ -13,7 +13,7 @@ def convert_file_encoding(input_file, source_encoding, target_encoding):
     with open(input_file, 'w', encoding=target_encoding) as f:
         f.write(content)
 
-file = 'выгрузка_новое.txt'
+file = '4.txt'
 source_encoding = detect_encoding(file)
 print(f"Определенная кодировка: {source_encoding}")
 
