@@ -63,11 +63,11 @@ int main(int argc, char *argv[]) {
         universal_parser first(file1);
         universal_parser second(file2);
         std::cout <<"\nВыберите путь для выходного файла(нужно указать папку)\nпуть к папке :";
-        if (is_file){
-            std::cerr << "\nОшибка: Либо в пути присутствует точка, либо вы передали путь к файлу, а надо в папку .csv\n" << std::endl;
-        }
         std::string outputPath;
         std::cin >> outputPath;
+        if (is_file(outputPath)){
+            std::cerr << "\nОшибка: Либо в пути присутствует точка, либо вы передали путь к файлу, а надо в папку .csv\n" << std::endl;
+        }
         outputPath += "/ouput.txt";
         validation_data val(first, second, outputPath);
         // print(first);

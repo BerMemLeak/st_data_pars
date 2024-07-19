@@ -7,7 +7,29 @@
 #include <uchardet/uchardet.h> // Подключение библиотеки uchardet
 #include <boost/locale.hpp>
 #include <string>
-#include <filesystem> // Для работы с файловой системой (доступно в C++17 и выше)
+
+
+std::string convertCRLFtoLF(const std::string& input) {
+    std::string result;
+    result.reserve(input.size());
+
+    for (size_t i = 0; i < input.size(); ++i) {
+        if (input[i] == '\r') {
+            // Если после \r идет \n, добавляем только \n
+            if (i + 1 < input.size() && input[i + 1] == '\n') {
+                result += '\n';
+                ++i; // Пропускаем \n
+            } else {
+                result += '\n'; // Просто добавляем \n
+            }
+        } else {
+            result += input[i];
+        }
+    }
+
+    return result;
+}
+
 
 // Функция для определения кодировки файла
 std::string detect_encoding(const std::string& file_path) {
@@ -59,11 +81,13 @@ void convert_file_encoding(const std::string& input_file, const std::string& sou
     std::string content = buffer.str();
     input_stream.close(); // Закрываем входной поток
 
+    content = convertCRLFtoLF(content);
+
     // Преобразование содержимого из исходной кодировки в целевую
     std::string converted_content = convert_encoding(content, source_encoding, target_encoding);
 
     // Создаем имя для нового файла
-    std::string output_file =   input_file ;
+    const std::string& output_file =   input_file ;
 
     // Открываем новый файл для записи в новой кодировке
     std::ofstream output_stream(output_file, std::ios::binary);
